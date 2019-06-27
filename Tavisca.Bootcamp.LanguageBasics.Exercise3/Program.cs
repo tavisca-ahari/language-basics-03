@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
+namespace Tavisca.Bootcamp.LanguageBasics.Exercise3
 {
     public static class Program
     {
@@ -28,7 +28,6 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                 new[] { 2, 6, 6, 2, 4, 4, 5, 0, 5, 5, 6, 6, 3, 5, 6 });
             Console.ReadKey(true);
         }
-
         private static void Test(int[] protein, int[] carbs, int[] fat, string[] dietPlans, int[] expected)
         {
             var result = SelectMeals(protein, carbs, fat, dietPlans).SequenceEqual(expected) ? "PASS" : "FAIL";
@@ -38,113 +37,80 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             Console.WriteLine($"Diet plan = [{string.Join(", ", dietPlans)}]");
             Console.WriteLine(result);
         }
-
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
-            int[] output = new int[dietPlans.Length];
+            int[] bestMenu = new int[dietPlans.Length];
             int[] calories = new int[protein.Length];
 
-            
             for (int i = 0; i < protein.Length; i++)
                 calories[i] = protein[i] * 5 + carbs[i] * 5 + fat[i] * 9;
 
-
             for (int i = 0; i < dietPlans.Length; i++)
             {
-                List<int> temp = new List<int>();
-                List<int> List = new List<int>();
-                int min=10000, max=-1;
+                List<int> tempList = new List<int>();
+                List<int> indexList = new List<int>();
+               
                 for (int j = 0; j < protein.Length; j++)
-                    List.Add(j);
+                    indexList.Add(j);
+
                 for (int j = 0; j < dietPlans[i].Length; j++)
                 {
-                    temp = new List<int>();
+                    tempList = new List<int>();
                     string tempDietPlan = dietPlans[i];
                     if (tempDietPlan[j] == 'C')
-                    { 
-                        foreach (int k in List)
-                            if (max < carbs[k])
-                                max = carbs[k];
-                        foreach (int k in List)
-                            if (max == carbs[k])
-                                temp.Add(k);
-                    }
+                        MaxValue(carbs,tempList,indexList);
+                    
                     else if (tempDietPlan[j] == 'c')
-                    {
-                        foreach (int k in List)
-                            if (min > carbs[k])
-                                min = carbs[k];
-                        foreach (int k in List)
-                            if (min == carbs[k])
-                                temp.Add(k);
-                    }
+                        MinValue(carbs, tempList, indexList);
+                    
                     else if (tempDietPlan[j] == 'P')
-                    {
-                        foreach (int k in List)
-                            if (max < protein[k])
-                                max = protein[k];
-                        foreach (int k in List)
-                            if (max == protein[k])
-                                temp.Add(k);
-                    }
+                        MaxValue(protein, tempList, indexList);
+                    
                     else if (tempDietPlan[j] == 'p')
-                    {
-                        foreach (int k in List)
-                            if (min > protein[k])
-                                min = protein[k];
-                        foreach (int k in List)
-                            if (min == protein[k])
-                                temp.Add(k);
-                    }
+                        MinValue(protein, tempList, indexList);
+                    
                     else if (tempDietPlan[j] == 'F')
-                    {
-                        foreach (int k in List)
-                            if (max < fat[k])
-                                max = fat[k];
-                        foreach (int k in List)
-                            if (max == fat[k])
-                                temp.Add(k);
-                    }
+                        MaxValue(fat, tempList, indexList);
+                    
                     else if (tempDietPlan[j] == 'f')
-                    {
-                       
-                        foreach (int k in List)
-                            if (min > fat[k])
-                                min = fat[k];
-                        foreach (int k in List)
-                            if (min == fat[k])
-                                temp.Add(k);
-                    }
+                        MinValue(fat, tempList, indexList);
+                    
                     else if (tempDietPlan[j] == 'T')
-                    {
-                        
-                        foreach (int k in List)
-                            if (max < calories[k])
-                                max = calories[k];
-                        foreach (int k in List)
-                            if (max == calories[k])
-                                temp.Add(k);
-                    }
+                        MaxValue(calories, tempList, indexList);
+                    
                     else if (tempDietPlan[j] == 't')
-                    {
-                        
-                        foreach (int k in List)
-                            if (min > calories[k])
-                                min = calories[k];
-                        foreach (int k in List)
-                            if (min == calories[k])
-                                temp.Add(k);
-                    }
-                    if (temp.Count == 1)
+                        MinValue(calories, tempList, indexList);
+                    
+                    if (tempList.Count == 1)
                         break;
-                    List = temp;
+                    indexList = tempList;
                 }
                 if (dietPlans[i] == "")
-                    output[i] = 0;
+                    bestMenu[i] = 0;
                 else
-                    output[i] = temp[0];
+                    bestMenu[i] = tempList[0];
             }
-            return output;
+            return bestMenu;
+        }
+        public static void MaxValue(int[] nutrition,List<int> tempList, List<int> indexList)
+        {
+            int max = nutrition[indexList[0]];
+            foreach (int k in indexList)
+                if (max < nutrition[k])
+                    max = nutrition[k];
+            foreach (int k in indexList)
+                if (max == nutrition[k])
+                    tempList.Add(k);
+        }
+        public static void MinValue(int[] nutrition, List<int> tempList, List<int> indexList)
+        {
+            int min = nutrition[indexList[0]];
+            foreach (int k in indexList)
+                if (min > nutrition[k])
+                    min = nutrition[k];
+            foreach (int k in indexList)
+                if (min == nutrition[k])
+                    tempList.Add(k);
         }
     }
 }
