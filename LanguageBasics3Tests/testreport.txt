@@ -1,0 +1,32 @@
+Group Name: LanguageBasics3Tests
+Group By: Hierarchy
+Group Full Name: LanguageBasics3Tests
+Duration: 0:00:00.1159429
+0 test(s) failed
+0 test(s) skipped
+3 test(s) passed
+
+Result1 Name:	DietPlan_Empty
+Result1 Outcome:	Passed
+Result1 Duration:	0:00:00.00039
+Result1 StackTrace:
+Result1 Message:
+Result1 StandardOutput:
+Result1 StandardError:
+
+Result2 Name:	DietPlan_Simple
+Result2 Outcome:	Passed
+Result2 Duration:	0:00:00.1151484
+Result2 StackTrace:
+Result2 Message:
+Result2 StandardOutput:
+Result2 StandardError:
+
+Result3 Name:	DietPlan_Tied
+Result3 Outcome:	Passed
+Result3 Duration:	0:00:00.0004045
+Result3 StackTrace:
+Result3 Message:
+Result3 StandardOutput:
+Result3 StandardError:
+
